@@ -29,7 +29,7 @@ export default class HolochainService {
     #conductorConfigPath: string
     signalCallbacks: Map<string, [AppSignalCb, string]>;
 
-    constructor(conductorPath: string, dataPath: string, resourcePath: string) {
+    constructor(conductorPath: string, dataPath: string, resourcePath: string, adminPort?: number, appPort?: number) {
         this.#didResolveError = false;
 
         console.log("HolochainService: Creating low-db instance for holochain-serivce");
@@ -38,8 +38,8 @@ export default class HolochainService {
         this.#db.defaults({pubKeys: []}).write()
         this.signalCallbacks = new Map();
 
-        const holochainAppPort = 1337;
-        const holochainAdminPort = 2000;
+        const holochainAppPort = appPort ? appPort : 1337;
+        const holochainAdminPort = adminPort ? adminPort : 2000;
         this.#adminPort = holochainAdminPort;
         this.#appPort = holochainAppPort;
         this.#resourcePath = resourcePath;
